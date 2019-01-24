@@ -21,6 +21,7 @@ blogdb.create({
     desc: 'safnv'
 });
 
+//index
 app.get('/', function (req, res) {
     blogdb.find({}, function (err, blogs) {
         if (err)
@@ -30,6 +31,22 @@ app.get('/', function (req, res) {
     });
 
 });
+
+//new
+app.get('/new', function (req, res) {
+    res.render('new');
+});
+//post
+app.post('/', function (req, res) {
+    blogdb.create(req.body.blog, function (err, blog) {
+        if (err)
+            console.log(err);
+        else
+            console.log(blog);
+    });
+    res.redirect('/');
+});
+
 
 app.listen(3000, function () {
     console.log("Server started at port 3000");
