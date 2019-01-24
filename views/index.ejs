@@ -1,0 +1,9 @@
+<h1>Blogs</h1>
+<%blogs.forEach(function(blog){%>
+<div>
+    <h2><%= blog.title %></h2>
+    <h4><%= blog.date %></h4>
+    <img src="<%= blog.image %>">
+    <p><%= blog.desc %></p>
+</div>
+<%});%>
