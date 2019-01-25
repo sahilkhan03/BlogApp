@@ -1,11 +1,13 @@
 var express = require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
+    methodOverride=require('method-override'),
     app = express();
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
 mongoose.connect('mongodb://localhost/blog_app', {useNewUrlParser: true});
 
 var blogSchema = {
@@ -56,8 +58,36 @@ app.get('/blogs/:id', function (req, res) {
             res.render('show', {blog: blog});
     });
 });
+//edit
+app.get('/blogs/:id/edit',function (req,res) {
+    blogdb.findById(req.params.id, function (err, blog) {
+        if (err)
+            console.log(err);
+        else
+            res.render('update', {blog: blog});
+    });
+});
 
+//update
+app.put('/blogs/:id',function (req,res) {
+   blogdb.findByIdAndUpdate(req.params.id,req.body.blog,function (err,blog) {
+       if(err)
+           console.log(err);
+       else
+       {console.log(blog);
+       res.redirect('/blogs/'+req.params.id);}
+   });
+});
 
+//delete
+app.delete('/blogs/:id',function (req,res) {
+   blogdb.findByIdAndRemove(req.params.id,function (err,blog) {
+       if(err)
+           console.log(err);
+       else
+           res.redirect('/blogs');
+   }) ;
+});
 
 app.listen(3000, function () {
     console.log("Server started at port 3000");
