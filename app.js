@@ -15,37 +15,48 @@ var blogSchema = {
     date: {type: Date, default: Date.now}
 };
 var blogdb = mongoose.model('blogdb', blogSchema);
-blogdb.create({
-    title: 'New',
-    image: 'sadfnn',
-    desc: 'safnv'
+
+app.get('/', function (req, res) {
+    res.render('index');
 });
 
 //index
-app.get('/', function (req, res) {
+app.get('/blogs', function (req, res) {
     blogdb.find({}, function (err, blogs) {
         if (err)
             console.log(err);
         else
-            res.render('index', {blogs: blogs});
+            res.render('blogs', {blogs: blogs});
     });
 
 });
 
-//new
-app.get('/new', function (req, res) {
+//new blog
+app.get('/blogs/new', function (req, res) {
     res.render('new');
 });
-//post
-app.post('/', function (req, res) {
+
+//add new blog and display in index
+app.post('/blogs', function (req, res) {
     blogdb.create(req.body.blog, function (err, blog) {
         if (err)
             console.log(err);
         else
             console.log(blog);
     });
-    res.redirect('/');
+    res.redirect('/blogs');
 });
+
+//show individual blog
+app.get('/blogs/:id', function (req, res) {
+    blogdb.findById(req.params.id, function (err, blog) {
+        if (err)
+            console.log(err);
+        else
+            res.render('show', {blog: blog});
+    });
+});
+
 
 
 app.listen(3000, function () {
