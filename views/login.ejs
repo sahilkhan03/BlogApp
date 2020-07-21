@@ -1,0 +1,40 @@
+<% include ./partials/header %>
+
+
+<div class="ui main text container segment">
+		<div class="ui huge header">Login</div>
+		<form class="ui form" action="/login" method="POST">
+			<div class="field">
+				<label>Username</label>
+				<input type="text" name="username" placeholder="username" required>
+			</div>
+				
+			<div class="field">
+				<label>Password</label>
+				<input type="password" name="password" placeholder="password" required>
+			</div>	
+
+			
+
+			<input class="ui floated big basic green button" type="submit" name ="Login!" value="Login" >
+		</form>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- 
+<h1>Login!</h1>
+
+<form action="/login" method="POST">
+	<input type="text" name="username" placeholder="username"> 
+	<input type="password" name="password" placeholder="password">
+	<input type="submit" name="Login!">
+</form> -->
+
+<% include ./partials/footer %>   
